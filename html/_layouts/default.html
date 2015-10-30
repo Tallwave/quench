@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{% include head.html %}
+</head>
+
+<body>
+
+<header class="site-header" role="banner">
+{% include header.html %}
+</header>
+
+<main class="page-content" role="main">
+{{ content }}
+</main>
+
+<footer class="site-footer" role="contentinfo">
+{% include footer.html %}
+</footer>
+
+<script src="{{ 'js/app.js' | prepend: site.baseurl }}"></script>
+
+</body>
+</html>
