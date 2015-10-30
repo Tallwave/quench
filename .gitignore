@@ -1,2 +1,8 @@
-_site/
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+
+.DS_Store
 .sass-cache/
+node_modules/
+bower_components/
+deploy/

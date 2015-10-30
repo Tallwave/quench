@@ -1,0 +1,16 @@
+#
+# Jekyll Configuration
+#
+
+# Site Settings
+title:       Quench
+description: "A front-end build tool to quickly spin up static web sites using Gulp, Jekyll, SASS and Bootstrap"
+host:        "localhost"
+baseurl:     "/"
+
+# Build settings
+markdown:    kramdown
+permalink:   pretty
+keep_files:  ['css', 'img', 'js']
+source:      html
+destination: deploy
