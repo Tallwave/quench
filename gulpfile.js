@@ -42,15 +42,11 @@ var paths = {
   }
 };
 
-var messages = {
-  jekyllbuild: 'Running: jekyll build'
-};
-
 // See https://github.com/austinpray/asset-builder
 // var manifest = require('asset-builder')('./manifest.json');
 
 gulp.task('html', function(done) {
-  browsersync.notify(messages.jekyllbuild);
+  browsersync.notify('Running: jekyll build');
   return childprocess.spawn('jekyll', ['build'], {stdio: 'inherit'})
     .on('close', done);
 });
