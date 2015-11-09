@@ -13,6 +13,7 @@ var jshint       = require('gulp-jshint');
 var childprocess = require('child_process');
 var argv         = require('yargs').argv;
 var gulpif       = require('gulp-if');
+var runsequence  = require('run-sequence');
 // var wiredep      = require('wiredep').stream;
 
 var paths = {
@@ -119,7 +120,13 @@ gulp.task('watch', function() {
   gulp.watch(paths.source.img, ['img']);
 });
 
-gulp.task('default', ['img', 'html', 'css', 'js', 'watch', 'serve']);
+gulp.task('build', ['clean'], function(callback) {
+  runsequence(['html', 'css', 'js', 'img'], callback);
+});
+
+gulp.task('default', ['build'], function() {
+  runsequence('serve', 'watch');
+});
 
 // gulp.task('wiredep', function() {
 //   return gulp.src('')
