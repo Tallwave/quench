@@ -9,6 +9,7 @@ var minifycss    = require('gulp-minify-css');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
+var jshint       = require('gulp-jshint');
 var childprocess = require('child_process');
 // var wiredep      = require('wiredep').stream;
 
@@ -72,13 +73,19 @@ gulp.task('css', function() {
     .pipe(gulp.dest(paths.deploy.css));
 });
 
-gulp.task('js', function() {
+gulp.task('js', ['lint'], function() {
   return gulp.src(paths.source.js)
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
     .pipe(uglify())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.deploy.js));
+});
+
+gulp.task('lint', function() {
+  return gulp.src('js/app.js')
+    .pipe(jshint({ lookup: false }))
+    .pipe(jshint.reporter('default'));
 });
 
 gulp.task('img', function() {
