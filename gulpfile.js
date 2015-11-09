@@ -11,6 +11,8 @@ var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
 var jshint       = require('gulp-jshint');
 var childprocess = require('child_process');
+var argv         = require('yargs').argv;
+var gulpif       = require('gulp-if');
 // var wiredep      = require('wiredep').stream;
 
 var paths = {
@@ -64,12 +66,8 @@ gulp.task('css', function() {
     // See https://github.com/postcss/autoprefixer
     // and https://github.com/ai/browserslist
     // and http://caniuse.com/usage-table
-    .pipe(autoprefixer({
-      browsers: [
-        'last 2 versions'
-      ]
-    }))
-    .pipe(sourcemaps.write())
+    .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
+    .pipe(gulpif(!argv.production, sourcemaps.write()))
     .pipe(gulp.dest(paths.deploy.css));
 });
 
@@ -78,7 +76,7 @@ gulp.task('js', ['lint'], function() {
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
     .pipe(uglify())
-    .pipe(sourcemaps.write())
+    .pipe(gulpif(!argv.production, sourcemaps.write()))
     .pipe(gulp.dest(paths.deploy.js));
 });
 
