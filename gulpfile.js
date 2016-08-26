@@ -15,6 +15,8 @@ var argv         = require('yargs').argv;
 var gulpif       = require('gulp-if');
 var runsequence  = require('run-sequence');
 
+// Add or remove build assets here as needed
+// TODO: Add a manifest.json and use wiredep to inject assets dynamically
 var paths = {
   source: {
     css: 'scss/**/*.scss',
