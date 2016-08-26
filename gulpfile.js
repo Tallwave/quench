@@ -4,8 +4,8 @@ var del          = require('del');
 var browsersync  = require('browser-sync').create();
 var imagemin     = require('gulp-imagemin');
 var autoprefixer = require('gulp-autoprefixer');
-var minifycss    = require('gulp-minify-css');
 var sass         = require('gulp-sass');
+var cleancss     = require('gulp-clean-css');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
@@ -64,6 +64,7 @@ gulp.task('css', function() {
     // and http://caniuse.com/usage-table
     .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
     .pipe(gulpif(!argv.production, sourcemaps.write()))
+    .pipe(cleancss())
     .pipe(gulp.dest(paths.deploy.css));
 });
 
