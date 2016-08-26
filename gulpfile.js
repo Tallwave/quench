@@ -14,7 +14,6 @@ var childprocess = require('child_process');
 var argv         = require('yargs').argv;
 var gulpif       = require('gulp-if');
 var runsequence  = require('run-sequence');
-// var wiredep      = require('wiredep').stream;
 
 var paths = {
   source: {
@@ -45,9 +44,6 @@ var paths = {
     img: 'deploy/img/'
   }
 };
-
-// See https://github.com/austinpray/asset-builder
-// var manifest = require('asset-builder')('./manifest.json');
 
 gulp.task('html', function(done) {
   browsersync.notify('Running: jekyll build');
@@ -123,11 +119,3 @@ gulp.task('build', ['clean'], function(callback) {
 gulp.task('default', ['build'], function() {
   runsequence('serve', 'watch');
 });
-
-// gulp.task('wiredep', function() {
-//   return gulp.src('')
-//     .pipe(wiredep({
-//
-//     }))
-//     .pipe(gulp.dest(''));
-// });
