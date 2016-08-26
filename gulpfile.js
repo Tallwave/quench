@@ -66,7 +66,7 @@ gulp.task('css', function() {
 
 gulp.task('js', ['lint'], function() {
   return gulp.src(paths.source.js)
-    .pipe(sourcemaps.init())
+    .pipe(gulpif(!argv.production, sourcemaps.init()))
     .pipe(concat('app.js'))
     .pipe(uglify())
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
