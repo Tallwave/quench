@@ -1,6 +1,6 @@
 {
   "name": "Quench",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A front-end build tool to quickly spin up static web sites using Gulp, Jekyll, SASS and Bootstrap",
   "author": "Scott Bulloch <scott.bulloch@tallwave.com>",
   "homepage": "https://github.com/tallwave/quench",
