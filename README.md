@@ -5,7 +5,6 @@ A front-end build tool to quickly spin up static web sites using Gulp, Jekyll, S
 ## Before you start you need these on your machine:
 - [Node](https://nodejs.org/)
 - [Jekyll](http://jekyllrb.com/)
-- [SASS](http://sass-lang.com/)
 
 ## Setup instructions:
 1. Clone this repo to a local folder

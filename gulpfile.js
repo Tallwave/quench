@@ -4,8 +4,8 @@ var del          = require('del');
 var browsersync  = require('browser-sync').create();
 var imagemin     = require('gulp-imagemin');
 var autoprefixer = require('gulp-autoprefixer');
-var sass         = require('gulp-ruby-sass');
 var minifycss    = require('gulp-minify-css');
+var sass         = require('gulp-sass');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
@@ -56,14 +56,9 @@ gulp.task('html', function(done) {
 });
 
 gulp.task('css', function() {
-  return sass(paths.source.css, {
-      precision: 10,
-      stopOnError: true,
-      style: 'expanded',
-      sourcemap: true
-      // lineNumbers: true
-    })
-    .on('error', sass.logError)
+  return gulp.src(paths.source.css)
+    .pipe(gulpif(!argv.production, sourcemaps.init()))
+    .pipe(sass({ precision: 10 }).on('error', sass.logError))
     // See https://github.com/postcss/autoprefixer
     // and https://github.com/ai/browserslist
     // and http://caniuse.com/usage-table
