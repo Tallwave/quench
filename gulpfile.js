@@ -59,8 +59,8 @@ gulp.task('css', function() {
     // and https://github.com/ai/browserslist
     // and http://caniuse.com/usage-table
     .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
-    .pipe(gulpif(!argv.production, sourcemaps.write()))
     .pipe(cleancss())
+    .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.css));
 });
 
@@ -69,7 +69,7 @@ gulp.task('js', ['lint'], function() {
     .pipe(sourcemaps.init())
     .pipe(concat('app.js'))
     .pipe(uglify())
-    .pipe(gulpif(!argv.production, sourcemaps.write()))
+    .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.js));
 });
 
