@@ -61,7 +61,7 @@ gulp.task('css', function() {
     // and https://github.com/ai/browserslist
     // and http://caniuse.com/usage-table
     .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
-    .pipe(cleancss())
+    .pipe(cleancss({ advanced: false }))
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.css));
 });
