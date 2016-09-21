@@ -95,7 +95,10 @@ gulp.task('serve', function() {
     open: false,
     notify: true,
     files: [
-      'deploy/**/*'
+      'deploy/img/*',
+      'deploy/**/*.html',
+      'deploy/js/app.js',
+      'deploy/css/app.css'
     ],
     server: {
       baseDir: 'deploy/'
