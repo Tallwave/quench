@@ -19,8 +19,6 @@ var runsequence  = require('run-sequence');
 // TODO: Add a manifest.json and use wiredep to inject assets dynamically
 var paths = {
   source: {
-    css: 'scss/**/*.scss',
-    html: 'html/**/*.html',
     js: [
       'node_modules/jquery/dist/jquery.js',
       'node_modules/bootstrap-sass/assets/javascripts/bootstrap/affix.js',
@@ -37,13 +35,17 @@ var paths = {
       'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
       'js/app.js'
     ],
-    img: 'img/**/*.{svg,png,gif,jpg,jpeg}'
+    html:   'html/**/*.html',
+    styles: 'assets/styles/**/*.scss',
+    images: 'assets/images/**/*.{svg,png,gif,jpg,jpeg}',
+    fonts:  'assets/fonts/**/*.{ttf,otf,eot,woff,woff2}',
   },
   deploy: {
-    css: 'deploy/css/',
-    html: 'deploy/',
-    js: 'deploy/js/',
-    img: 'deploy/img/'
+    html:    'deploy/',
+    styles:  'deploy/assets/styles/',
+    images:  'deploy/assets/images/',
+    fonts:   'deploy/assets/fonts/',
+    scripts: 'deploy/assets/scripts/'
   }
 };
 
@@ -95,10 +97,11 @@ gulp.task('serve', function() {
     open: false,
     notify: true,
     files: [
-      'deploy/img/*',
       'deploy/**/*.html',
-      'deploy/js/app.js',
-      'deploy/css/app.css'
+      'deploy/assets/images/*',
+      'deploy/assets/fonts/*',
+      'deploy/assets/scripts/*',
+      'deploy/assets/styles/main.css'
     ],
     server: {
       baseDir: 'deploy/'

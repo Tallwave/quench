@@ -11,6 +11,6 @@ baseurl:     "/"
 # Build settings
 markdown:    kramdown
 permalink:   pretty
-keep_files:  ['css', 'img', 'js']
+keep_files:  ['assets']
 source:      html
 destination: deploy
