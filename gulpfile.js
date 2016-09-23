@@ -10,6 +10,7 @@ var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
 var jshint       = require('gulp-jshint');
+var babel        = require("gulp-babel");
 var childprocess = require('child_process');
 var argv         = require('yargs').argv;
 var gulpif       = require('gulp-if');
@@ -72,6 +73,7 @@ gulp.task('js', ['lint'], function() {
     .pipe(gulpif(!argv.production, sourcemaps.init()))
     .pipe(concat('app.js'))
     .pipe(uglify())
+    .pipe(gulpif(( framework === 'foundation' ), babel()))
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.js));
 });
