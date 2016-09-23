@@ -49,14 +49,17 @@ var paths = {
   }
 };
 
+// NOTE: Jekyll will delete the entire deploy directory when it builds
+// If you add files to the build process outside of the assets folder,
+// be sure to add them to the keep_files setting in _config.yml
 gulp.task('html', function(done) {
   browsersync.notify('Running: jekyll build');
   return childprocess.spawn('jekyll', ['build'], {stdio: 'inherit'})
     .on('close', done);
 });
 
-gulp.task('css', function() {
-  return gulp.src(paths.source.css)
+gulp.task('styles', function() {
+  return gulp.src(paths.source.styles)
     .pipe(gulpif(!argv.production, sourcemaps.init()))
     .pipe(sass({ precision: 10 }).on('error', sass.logError))
     // See https://github.com/postcss/autoprefixer
@@ -65,29 +68,31 @@ gulp.task('css', function() {
     .pipe(autoprefixer({ browsers: ['last 2 versions'] }))
     .pipe(cleancss({ advanced: false }))
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
-    .pipe(gulp.dest(paths.deploy.css));
+    .pipe(gulp.dest(paths.deploy.styles));
 });
 
-gulp.task('js', ['lint'], function() {
-  return gulp.src(paths.source.js)
+gulp.task('scripts', ['lint'], function() {
+  return gulp.src(paths.source.scripts.all)
     .pipe(gulpif(!argv.production, sourcemaps.init()))
-    .pipe(concat('app.js'))
-    .pipe(uglify())
+    // Comment the following line if you do not want scripts to be concatenated
+    .pipe(concat('main.js'))
     .pipe(gulpif(( framework === 'foundation' ), babel()))
+    // Comment the following line if you do not want scripts to be minified
+    // .pipe(uglify())
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
-    .pipe(gulp.dest(paths.deploy.js));
+    .pipe(gulp.dest(paths.deploy.scripts));
 });
 
 gulp.task('lint', function() {
-  return gulp.src('js/app.js')
+  return gulp.src(paths.source.scripts.main)
     .pipe(jshint({ lookup: false }))
     .pipe(jshint.reporter('default'));
 });
 
-gulp.task('img', function() {
-  return gulp.src(paths.source.img)
+gulp.task('images', function() {
+  return gulp.src(paths.source.images)
     .pipe(imagemin())
-    .pipe(gulp.dest(paths.deploy.img));
+    .pipe(gulp.dest(paths.deploy.images));
 });
 
 gulp.task('serve', function() {
@@ -111,18 +116,20 @@ gulp.task('serve', function() {
 });
 
 gulp.task('clean', function() {
-  return del('deploy');
+  return del(['deploy']);
 });
 
 gulp.task('watch', function() {
-  gulp.watch(paths.source.css, ['css']);
   gulp.watch(paths.source.html, ['html']);
-  gulp.watch(paths.source.js, ['js']);
-  gulp.watch(paths.source.img, ['img']);
+  gulp.watch(paths.source.styles, ['styles']);
+  gulp.watch(paths.source.images, ['images']);
+  gulp.watch(paths.source.fonts, ['fonts']);
+  gulp.watch(paths.source.scripts.main, ['scripts']);
+  gulp.watch('scriptfiles.json', ['scripts']);
 });
 
 gulp.task('build', ['clean'], function(callback) {
-  runsequence(['html', 'css', 'js', 'img'], callback);
+  runsequence(['html', 'styles', 'images', 'fonts', 'scripts'], callback);
 });
 
 gulp.task('default', ['build'], function() {
