@@ -137,6 +137,6 @@ gulp.task('build', ['clean'], function(callback) {
   runsequence(['html', 'styles', 'images', 'fonts', 'scripts'], callback);
 });
 
-gulp.task('default', ['build'], function() {
-  runsequence('serve', 'watch');
+gulp.task('default', function() {
+  runsequence('build', 'serve', 'watch');
 });
