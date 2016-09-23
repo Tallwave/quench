@@ -95,6 +95,11 @@ gulp.task('images', function() {
     .pipe(gulp.dest(paths.deploy.images));
 });
 
+gulp.task('fonts', function() {
+  return gulp.src(paths.source.fonts)
+    .pipe(gulp.dest(paths.deploy.fonts));
+});
+
 gulp.task('serve', function() {
   browsersync.init({
     ui: {
