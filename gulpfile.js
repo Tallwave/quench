@@ -14,31 +14,30 @@ var childprocess = require('child_process');
 var argv         = require('yargs').argv;
 var gulpif       = require('gulp-if');
 var runsequence  = require('run-sequence');
+var fs           = require('fs');
+var scriptfiles  = JSON.parse(fs.readFileSync('./scriptfiles.json'));
 
-// Add or remove build assets here as needed
-// TODO: Add a manifest.json and use wiredep to inject assets dynamically
+// Uncomment the framework you are using
+// var framework = 'bootstrap';
+// var framework = 'foundation';
+
+// NOTE: remove unused scripts from scriptmanifest.json
+if ( framework === 'bootstrap'  ) var frameworkjs = scriptfiles.bootstrap;
+if ( framework === 'foundation' ) var frameworkjs = scriptfiles.foundation;
+var vendorjs = scriptfiles.vendor;
+var mainjs = scriptfiles.main;
+var alljs = vendorjs.concat(frameworkjs, mainjs);
+
 var paths = {
   source: {
-    js: [
-      'node_modules/jquery/dist/jquery.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/affix.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/alert.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/button.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/carousel.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/modal.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/popover.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js',
-      'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js',
-      'js/app.js'
-    ],
     html:   'html/**/*.html',
     styles: 'assets/styles/**/*.scss',
     images: 'assets/images/**/*.{svg,png,gif,jpg,jpeg}',
     fonts:  'assets/fonts/**/*.{ttf,otf,eot,woff,woff2}',
+    scripts: {
+      main: mainjs,
+      all: alljs
+    }
   },
   deploy: {
     html:    'deploy/',
