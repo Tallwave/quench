@@ -6,6 +6,7 @@ var imagemin     = require('gulp-imagemin');
 var autoprefixer = require('gulp-autoprefixer');
 var sass         = require('gulp-sass');
 var cleancss     = require('gulp-clean-css');
+var sasslint     = require('gulp-sass-lint');
 var sourcemaps   = require('gulp-sourcemaps');
 var uglify       = require('gulp-uglify');
 var concat       = require('gulp-concat');
@@ -58,7 +59,7 @@ gulp.task('html', function(done) {
     .on('close', done);
 });
 
-gulp.task('styles', function() {
+gulp.task('styles', ['lint-css'], function() {
   return gulp.src(paths.source.styles)
     .pipe(gulpif(!argv.production, sourcemaps.init()))
     .pipe(sass({ precision: 10 }).on('error', sass.logError))
@@ -71,19 +72,32 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(paths.deploy.styles));
 });
 
-gulp.task('scripts', ['lint'], function() {
+gulp.task('lint-css', function() {
+  return gulp.src(paths.source.styles)
+    // See https://github.com/sasstools/sass-lint/tree/master/docs/rules
+    .pipe(sasslint({
+      options: {
+        configFile: '_sass-lint.yml',
+        'merge-default-rules': false
+      }
+    }))
+    .pipe(sasslint.format())
+    .pipe(sasslint.failOnError());
+});
+
+gulp.task('scripts', ['lint-js'], function() {
   return gulp.src(paths.source.scripts.all)
-    .pipe(gulpif(!argv.production, sourcemaps.init()))
+    .pipe(sourcemaps.init())
     // Comment the following line if you do not want scripts to be concatenated
+    // You will need to add separate script tags in default.html Jekyll template
     .pipe(concat('main.js'))
     .pipe(gulpif(( framework === 'foundation' ), babel()))
-    // Comment the following line if you do not want scripts to be minified
-    // .pipe(uglify())
+    .pipe(gulpif(argv.production, uglify()))
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.scripts));
 });
 
-gulp.task('lint', function() {
+gulp.task('lint-js', function() {
   return gulp.src(paths.source.scripts.main)
     .pipe(jshint({ lookup: false }))
     .pipe(jshint.reporter('default'));
@@ -91,7 +105,7 @@ gulp.task('lint', function() {
 
 gulp.task('images', function() {
   return gulp.src(paths.source.images)
-    .pipe(imagemin())
+    .pipe(gulpif(argv.production, imagemin()))
     .pipe(gulp.dest(paths.deploy.images));
 });
 
@@ -100,11 +114,12 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(paths.deploy.fonts));
 });
 
+gulp.task('lint', function() {
+  runsequence('lint-css', 'lint-js');
+});
+
 gulp.task('serve', function() {
   browsersync.init({
-    ui: {
-      port: 1337
-    },
     open: false,
     notify: true,
     files: [

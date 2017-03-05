@@ -1,18 +1,28 @@
-/**
+/*!
  * Foundation for Sites by ZURB
- * Version 6.2.3
+ * Version 6.3.1
  * foundation.zurb.com
  * Licensed under MIT Open Source
  */
+
+// Dependencies
+@import '../../node_modules/foundation-sites/_vendor/normalize-scss/sass/normalize';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/helpers/missing-dependencies';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/helpers/true';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/purge';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/remove';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/replace';
+@import '../../node_modules/foundation-sites/_vendor/sassy-lists/stylesheets/functions/to-list';
 
 // Sass utilities
 @import '../../node_modules/foundation-sites/scss/util/util';
 
 // Settings
-@import "foundation-settings";
+@import 'foundation-settings';
 
 // Global variables and styles
 @import '../../node_modules/foundation-sites/scss/global';
+
 
 // Components
 @import '../../node_modules/foundation-sites/scss/grid/grid';
@@ -27,12 +37,13 @@
 @import '../../node_modules/foundation-sites/scss/components/badge';
 @import '../../node_modules/foundation-sites/scss/components/breadcrumbs';
 @import '../../node_modules/foundation-sites/scss/components/callout';
+@import '../../node_modules/foundation-sites/scss/components/card';
 @import '../../node_modules/foundation-sites/scss/components/close-button';
 @import '../../node_modules/foundation-sites/scss/components/drilldown';
 @import '../../node_modules/foundation-sites/scss/components/dropdown-menu';
 @import '../../node_modules/foundation-sites/scss/components/dropdown';
 @import '../../node_modules/foundation-sites/scss/components/flex';
-@import '../../node_modules/foundation-sites/scss/components/flex-video';
+@import '../../node_modules/foundation-sites/scss/components/responsive-embed';
 @import '../../node_modules/foundation-sites/scss/components/label';
 @import '../../node_modules/foundation-sites/scss/components/media-object';
 @import '../../node_modules/foundation-sites/scss/components/menu';
@@ -59,8 +70,7 @@
 @include foundation-global-styles;
 @if not $flex {
   @include foundation-grid;
-}
-@else {
+} @else {
   @include foundation-flex-grid;
 }
 @include foundation-typography;
@@ -72,13 +82,14 @@
 @include foundation-breadcrumbs;
 @include foundation-button-group;
 @include foundation-callout;
+@include foundation-card;
 @include foundation-close-button;
 @include foundation-menu;
 @include foundation-menu-icon;
 @include foundation-drilldown-menu;
 @include foundation-dropdown;
 @include foundation-dropdown-menu;
-@include foundation-flex-video;
+@include foundation-responsive-embed;
 @include foundation-label;
 @include foundation-media-object;
 @include foundation-off-canvas;
