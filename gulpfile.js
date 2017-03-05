@@ -115,6 +115,10 @@ gulp.task('fonts', function() {
     .pipe(gulp.dest(paths.deploy.fonts));
 });
 
+gulp.task('lint', function() {
+  runsequence('lint-css', 'lint-js');
+});
+
 gulp.task('serve', function() {
   browsersync.init({
     open: false,
