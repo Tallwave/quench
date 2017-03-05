@@ -9,6 +9,12 @@
     "type": "git",
     "url": "https://github.com/tallwave/quench"
   },
+  "scripts": {
+    "start": "gulp",
+    "build-dev": "gulp build",
+    "build-prod": "gulp build --production",
+    "lint": "gulp lint"
+  },
   "bugs": {
     "url": "https://github.com/tallwave/quench/issues"
   },
