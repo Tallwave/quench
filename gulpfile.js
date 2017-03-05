@@ -92,8 +92,7 @@ gulp.task('scripts', ['lint-js'], function() {
     // You will need to add separate script tags in default.html Jekyll template
     .pipe(concat('main.js'))
     .pipe(gulpif(( framework === 'foundation' ), babel()))
-    // Comment the following line if you do not want scripts to be minified
-    // .pipe(uglify())
+    .pipe(gulpif(argv.production, uglify()))
     .pipe(gulpif(!argv.production, sourcemaps.write('./')))
     .pipe(gulp.dest(paths.deploy.scripts));
 });
@@ -106,7 +105,7 @@ gulp.task('lint-js', function() {
 
 gulp.task('images', function() {
   return gulp.src(paths.source.images)
-    .pipe(imagemin())
+    .pipe(gulpif(argv.production, imagemin()))
     .pipe(gulp.dest(paths.deploy.images));
 });
 
